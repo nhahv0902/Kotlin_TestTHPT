@@ -25,7 +25,7 @@ android {
     }
 }
 
-androidExtensions{
+androidExtensions {
     experimental = true
 }
 
@@ -40,4 +40,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'org.jetbrains.anko:anko-support-v4-commons:0.10.2'
     kapt 'com.android.databinding:compiler:3.0.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

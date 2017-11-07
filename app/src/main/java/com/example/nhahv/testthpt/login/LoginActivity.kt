@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.example.nhahv.testthpt.BaseActivity
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.databinding.ActivityLoginBinding
+import com.example.nhahv.testthpt.register.RegisterActivity
+import com.example.nhahv.testthpt.util.Navigator
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
@@ -14,7 +16,7 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mViewModel = LoginViewModel()
+        mViewModel = LoginViewModel(Navigator(this))
 
         val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = mViewModel
@@ -26,5 +28,6 @@ class LoginActivity : BaseActivity() {
         login.setOnClickListener {
             mViewModel.login(userName.text.toString(), password.text.toString())
         }
+        register.setOnClickListener { switchActivity<RegisterActivity>() }
     }
 }
