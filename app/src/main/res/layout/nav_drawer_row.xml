@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.nhahv.testthpt.data.Question" />
+
+        <variable
+            name="listener"
+            type="com.example.nhahv.testthpt.BaseRecyclerAdapter.OnClickItem" />
+
+        <variable
+            name="position"
+            type="int" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:paddingTop="4dp"
+        android:onClick="@{() -> listener.onClickItem(item, position)}"
+        android:paddingBottom="4dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/numberQuestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:text="Cau 1: tinh thoi su trong cach mang la gi,tinh thoi su trong cach mang la gitinh thoi su trong cach mang la gitinh thoi su trong cach mang la gitinh thoi su trong cach mang la gi"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@+id/answer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
+            android:text="A"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/numberQuestion"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

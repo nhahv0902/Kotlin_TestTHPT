@@ -3,6 +3,7 @@ package com.example.nhahv.testthpt
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 
 @SuppressLint("Registered")
 open
@@ -13,5 +14,12 @@ class BaseActivity : AppCompatActivity() {
 
     inline fun <reified T : AppCompatActivity> switchActivity() {
         startActivity(Intent(this, T::class.java))
+    }
+
+    fun setupToolbar(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
+        supportActionBar?.let {
+            it.setDisplayShowHomeEnabled(true)
+        }
     }
 }

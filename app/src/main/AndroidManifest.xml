@@ -13,16 +13,20 @@
         <activity
             android:name=".login.LoginActivity"
             android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".register.RegisterActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".register.RegisterActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".home.HomeActivity"></activity>
     </application>
 
 </manifest>

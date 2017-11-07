@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
 
         <variable
             name="viewModel"
@@ -10,10 +13,320 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.nhahv.testthpt.home.HomeActivity">
+        android:background="@color/color_bg_home_gb">
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_bg_home_gb">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_bg_home"
+                android:minHeight="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+                <TextView
+                    android:id="@+id/numberQuestion"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/bg_number_question"
+                    android:gravity="center"
+                    android:text="5/50"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/startQuestion"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_start_question"
+                    android:gravity="center"
+                    android:text="Bat dau"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:48:12"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/numberMade"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/numberMade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/bg_start_question"
+                    android:padding="4dp"
+                    android:text="Da lam 12/50"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/time"
+                    app:layout_constraintStart_toStartOf="@+id/time"
+                    app:layout_constraintTop_toBottomOf="@+id/time" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/bottom"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/color_bg_home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <ImageView
+                    android:id="@+id/previousQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.currentQuestion > 0 ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                    app:layout_constraintEnd_toStartOf="@+id/checkA"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/checkA"
+                    app:srcCompat="@drawable/ic_navigate_before_grey_24dp" />
+
+                <CheckBox
+                    android:id="@+id/checkA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/checkB"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/previousQuestion"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/checkB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="B"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                    app:layout_constraintEnd_toStartOf="@+id/checkC"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/checkA" />
+
+                <CheckBox
+                    android:id="@+id/checkC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                    app:layout_constraintEnd_toStartOf="@+id/checkD"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/checkB"
+                    app:layout_constraintTop_toTopOf="@+id/checkA" />
+
+                <CheckBox
+                    android:id="@+id/checkD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="D"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                    app:layout_constraintEnd_toStartOf="@+id/nextQuesttion"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/checkC"
+                    app:layout_constraintTop_toTopOf="@+id/checkA" />
+
+                <ImageView
+                    android:id="@+id/nextQuesttion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{(viewModel.currentQuestion == viewModel.items.size() - 1) ? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/checkD"
+                    app:layout_constraintTop_toTopOf="@+id/checkA"
+                    app:srcCompat="@drawable/ic_navigate_next_grey_24dp" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/bottom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/constraintLayout">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_text_question"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="A"
+                        app:layout_constraintBottom_toBottomOf="@+id/contentA"
+                        app:layout_constraintStart_toStartOf="@+id/start"
+                        app:layout_constraintTop_toTopOf="@+id/contentA" />
+
+                    <TextView
+                        android:id="@+id/contentA"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="100dp"
+                        android:background="@drawable/bg_content_question"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toStartOf="@+id/end"
+                        app:layout_constraintStart_toEndOf="@+id/textA"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="8dp" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="8dp" />
+
+                    <TextView
+                        android:id="@+id/textB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_text_question"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="B"
+                        app:layout_constraintBottom_toBottomOf="@+id/contentB"
+                        app:layout_constraintStart_toStartOf="@+id/start"
+                        app:layout_constraintTop_toTopOf="@+id/contentB" />
+
+                    <TextView
+                        android:id="@+id/contentB"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_content_question"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toStartOf="@+id/end"
+                        app:layout_constraintStart_toEndOf="@+id/textB"
+                        app:layout_constraintTop_toBottomOf="@+id/contentA" />
+
+                    <TextView
+                        android:id="@+id/textC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_text_question"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="C"
+                        app:layout_constraintBottom_toBottomOf="@+id/contentC"
+                        app:layout_constraintStart_toStartOf="@+id/start"
+                        app:layout_constraintTop_toTopOf="@+id/contentC" />
+
+                    <TextView
+                        android:id="@+id/contentC"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_content_question"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="TextView"
+                        app:layout_constraintEnd_toStartOf="@+id/end"
+                        app:layout_constraintStart_toEndOf="@+id/textC"
+                        app:layout_constraintTop_toBottomOf="@+id/contentB" />
+
+                    <TextView
+                        android:id="@+id/textD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_text_question"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="D"
+                        app:layout_constraintBottom_toBottomOf="@+id/contentD"
+                        app:layout_constraintStart_toStartOf="@+id/start"
+                        app:layout_constraintTop_toTopOf="@+id/contentD"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <TextView
+                        android:id="@+id/contentD"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_content_question"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="D"
+                        app:layout_constraintEnd_toStartOf="@+id/end"
+                        app:layout_constraintStart_toEndOf="@+id/textD"
+                        app:layout_constraintTop_toBottomOf="@+id/contentC" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.constraint.ConstraintLayout>
+
+        <fragment
+            android:id="@+id/navigation_drawer"
+            android:name="com.example.nhahv.testthpt.home.NavigationDrawerFragment"
+            android:layout_width="@dimen/nav_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:layout="@layout/fragment_navigation_drawer"
+            tools:layout="@layout/fragment_navigation_drawer" />
+    </android.support.v4.widget.DrawerLayout>
+
 </layout>
