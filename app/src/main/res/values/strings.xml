@@ -7,8 +7,8 @@
     <string name="action_register">Đăng Ký</string>
     <string name="text_repeat_password">Nhập lại mật khẩu</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_open">Open</string>
     <string name="text_close">Close</string>
+    <string name="bind_number_question" formatted="false">%s/%s</string>
+    <string name="bind_number_question_made" formatted="false">Đã làm %s/%s</string>
 </resources>

@@ -50,10 +50,10 @@
                     android:layout_marginLeft="8dp"
                     android:background="@drawable/bg_number_question"
                     android:gravity="center"
-                    android:text="5/50"
+                    android:text="@{@string/bind_number_question(viewModel.currentQuestion, viewModel.items.size())}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
                     android:gravity="center"
                     android:text="Bat dau"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/bg_start_question"
                     android:padding="4dp"
-                    android:text="Da lam 12/50"
+                    android:text="@{@string/bind_number_question_made(viewModel.numberMade, viewModel.items.size())}"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -118,70 +118,95 @@
                     android:id="@+id/previousQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:visibility="@{viewModel.currentQuestion > 0 ? View.VISIBLE : View.INVISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
-                    app:layout_constraintEnd_toStartOf="@+id/checkA"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/checkA"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_navigate_before_grey_24dp" />
 
-                <CheckBox
-                    android:id="@+id/checkA"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="A"
+                <RadioGroup
+                    android:id="@+id/groupAnswer"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/checkB"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/previousQuestion"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <CheckBox
-                    android:id="@+id/checkB"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="B"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
-                    app:layout_constraintEnd_toStartOf="@+id/checkC"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/checkA" />
-
-                <CheckBox
-                    android:id="@+id/checkC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="C"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
-                    app:layout_constraintEnd_toStartOf="@+id/checkD"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/checkB"
-                    app:layout_constraintTop_toTopOf="@+id/checkA" />
-
-                <CheckBox
-                    android:id="@+id/checkD"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="D"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
                     app:layout_constraintEnd_toStartOf="@+id/nextQuesttion"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/checkC"
-                    app:layout_constraintTop_toTopOf="@+id/checkA" />
+                    app:layout_constraintStart_toEndOf="@+id/previousQuestion"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/checkA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="A"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/checkB"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/previousQuestion"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/checkB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="B"
+
+                        app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                        app:layout_constraintEnd_toStartOf="@+id/checkC"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/checkA" />
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/checkC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="C"
+                        app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                        app:layout_constraintEnd_toStartOf="@+id/checkD"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/checkB"
+                        app:layout_constraintTop_toTopOf="@+id/checkA" />
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/checkD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:text="D"
+                        app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                        app:layout_constraintEnd_toStartOf="@+id/nextQuesttion"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/checkC"
+                        app:layout_constraintTop_toTopOf="@+id/checkA" />
+                </RadioGroup>
 
                 <ImageView
                     android:id="@+id/nextQuesttion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:visibility="@{(viewModel.currentQuestion == viewModel.items.size() - 1) ? View.INVISIBLE : View.VISIBLE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/checkA"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/checkD"
-                    app:layout_constraintTop_toTopOf="@+id/checkA"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_navigate_next_grey_24dp" />
             </android.support.constraint.ConstraintLayout>
 

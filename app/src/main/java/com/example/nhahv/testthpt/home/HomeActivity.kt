@@ -2,16 +2,23 @@ package com.example.nhahv.testthpt.home
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.util.Log
 import com.example.nhahv.testthpt.BaseActivity
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.databinding.ActivityHomeBinding
 import com.example.nhahv.testthpt.util.Navigator
 import kotlinx.android.synthetic.main.activity_home.*
+import org.jetbrains.anko.toast
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.concurrent.timerTask
+import kotlin.system.measureTimeMillis
 
 class HomeActivity : BaseActivity() {
 
     lateinit var viewModel: HomeViewModel
     var drawerFragment: NavigationDrawerFragment? = null
+    private var isRuning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = HomeViewModel(Navigator(this))
@@ -32,16 +39,46 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun event() {
-        startQuestion.setOnClickListener { }
+        startQuestion.setOnClickListener { isRuning = false }
         nextQuesttion.setOnClickListener {
             if (viewModel.currentQuestion.get() < viewModel.items.size - 1) {
                 viewModel.currentQuestion.set(viewModel.currentQuestion.get() + 1)
             }
+            viewModel.checkQuestionMade()
         }
         previousQuestion.setOnClickListener {
             if (viewModel.currentQuestion.get() > 0) {
                 viewModel.currentQuestion.set(viewModel.currentQuestion.get() - 1)
             }
+            viewModel.checkQuestionMade()
         }
+
+        groupAnswer.setOnCheckedChangeListener { group, _ ->
+            when (group.checkedRadioButtonId) {
+                R.id.checkA -> {
+                    toast("Check A")
+                }
+                R.id.checkB -> {
+                    toast("Check B")
+                }
+                R.id.checkC -> {
+                    toast("Check C")
+                }
+                R.id.checkD -> {
+                    toast("Check D")
+                }
+            }
+        }
+        val timer = Timer()
+        timer.schedule(timerTask {
+            if (isRuning) {
+                Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
+            } else {
+                timer.cancel()
+                timer.purge()
+            }
+        }, 0, 3000)
     }
+
+
 }
