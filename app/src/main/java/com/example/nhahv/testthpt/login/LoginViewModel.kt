@@ -3,6 +3,7 @@ package com.example.nhahv.testthpt.login
 import android.databinding.ObservableBoolean
 import android.os.StrictMode
 import com.example.nhahv.testthpt.BaseViewModel
+import com.example.nhahv.testthpt.data.local.SharePrefs
 import com.example.nhahv.testthpt.home.HomeActivity
 import com.example.nhahv.testthpt.util.Constant.METHOD_LOGIN
 import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
@@ -51,6 +52,10 @@ class LoginViewModel(private val navigator: Navigator) : BaseViewModel() {
             val response: SoapPrimitive = envelope.response as SoapPrimitive
             loading.set(false)
             if (response.toString().toBoolean()) {
+                SharePrefs.getInstance(navigator.context).put("user", userName)
+                SharePrefs.getInstance(navigator.context).put("password", password)
+                SharePrefs.getInstance(navigator.context).put("isLogin", true)
+
                 navigator.switchActivity<HomeActivity>()
                 navigator.finish()
             } else {

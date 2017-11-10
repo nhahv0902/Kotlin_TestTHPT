@@ -69,7 +69,7 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
-        val timer = Timer()
+       /* val timer = Timer()
         timer.schedule(timerTask {
             if (isRuning) {
                 Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
@@ -77,7 +77,7 @@ class HomeActivity : BaseActivity() {
                 timer.cancel()
                 timer.purge()
             }
-        }, 0, 3000)
+        }, 0, 3000)*/
     }
 
 

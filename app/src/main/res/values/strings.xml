@@ -11,4 +11,5 @@
     <string name="text_close">Close</string>
     <string name="bind_number_question" formatted="false">%s/%s</string>
     <string name="bind_number_question_made" formatted="false">Đã làm %s/%s</string>
+    <string name="bind_stt_question" formatted="false">Cau %s</string>
 </resources>
