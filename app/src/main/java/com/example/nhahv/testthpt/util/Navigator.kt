@@ -1,6 +1,7 @@
 package com.example.nhahv.testthpt.util
 
 import android.content.Intent
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
@@ -20,6 +21,10 @@ class Navigator(val context: AppCompatActivity) {
 
     inline fun <reified T : AppCompatActivity> switchActivity() {
         context.startActivity(Intent(context, T::class.java))
+    }
+
+    inline fun <reified T : AppCompatActivity> switchActivity(bundle: Bundle) {
+        context.startActivity(Intent(context, T::class.java).putExtras(bundle))
     }
 
     fun finish() {

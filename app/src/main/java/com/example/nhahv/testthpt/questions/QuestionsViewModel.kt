@@ -1,8 +1,8 @@
 package com.example.nhahv.testthpt.questions
 
-import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
 import android.view.View
@@ -10,6 +10,7 @@ import com.example.nhahv.testthpt.BaseRecyclerAdapter
 import com.example.nhahv.testthpt.BaseViewModel
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.data.InfoQuestion
+import com.example.nhahv.testthpt.home.HomeActivity
 import com.example.nhahv.testthpt.util.Constant.METHOD_GET_QUESTION
 import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
 import com.example.nhahv.testthpt.util.Constant.SOAP_GET_QUESTION
@@ -43,7 +44,7 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
 
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_GET_QUESTION)
-            request.addProperty("TenDangNhap", "ducan")
+            request.addProperty("TenDangNhap", "an")
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
@@ -56,10 +57,25 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
             response.toString()
 
             Log.d("TAG", "$response")
+
+            var index = 0
+            items.clear()
+            while (index < response.propertyCount) {
+                val element = response.getProperty(index) as SoapObject
+                val maDT = element.getProperty("MaDT").toString()
+                val tenMH = element.getProperty("TenMH").toString()
+                val tenBaiThi = element.getProperty("TenBaiThi").toString()
+                items.add(InfoQuestion(maDT = maDT.toLong(), subjectTitle = tenMH, nameTest = tenBaiThi))
+                index++
+            }
+            adapter.notifyChange()
         }
     }
 
     override fun onClickItem(item: InfoQuestion, position: Int) {
+        val bundle = Bundle()
+        bundle.putLong("maDT", item.maDT)
+        navigator.switchActivity<HomeActivity>(bundle)
     }
 
 

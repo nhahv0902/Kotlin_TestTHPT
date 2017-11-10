@@ -23,11 +23,12 @@ object Constant {
     const val REMARK = "Remark"
 
 
-
-
     const val URL_QUESTIONS = "http://qlhsthptnghen.somee.com/sThongTinDeThi.asmx?wsdl"
     const val METHOD_GET_QUESTION = "getThongTinDeThiCuaThiSinh"
     const val SOAP_GET_QUESTION = NAME_SPACE + METHOD_GET_QUESTION
 
 
+    const val URL_INFO_TEST = "http://qlhsthptnghen.somee.com/sChiTietCauHoi.asmx?wsdl"
+    const val METHOD_INFO_TEST = "getDeThiTheoMaDeThi"
+    const val SOAP_INFO_TEST = NAME_SPACE + METHOD_INFO_TEST
 }

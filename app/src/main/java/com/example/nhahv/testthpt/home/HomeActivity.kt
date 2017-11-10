@@ -21,7 +21,14 @@ class HomeActivity : BaseActivity() {
     private var isRuning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = HomeViewModel(Navigator(this))
+
+
+        val bundle = intent.extras
+        var maDT: Long = 0
+        bundle?.let {
+            maDT = it.getLong("maDT")
+        }
+        viewModel = HomeViewModel(Navigator(this), maDT)
 
         super.onCreate(savedInstanceState)
         val binding: ActivityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
@@ -69,15 +76,15 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
-        val timer = Timer()
-        timer.schedule(timerTask {
-            if (isRuning) {
-                Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
-            } else {
-                timer.cancel()
-                timer.purge()
-            }
-        }, 0, 3000)
+        /* val timer = Timer()
+         timer.schedule(timerTask {
+             if (isRuning) {
+                 Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
+             } else {
+                 timer.cancel()
+                 timer.purge()
+             }
+         }, 0, 3000)*/
     }
 
 
