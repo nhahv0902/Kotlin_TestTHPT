@@ -22,4 +22,12 @@ object Constant {
     const val MAKT = "MaKT"
     const val REMARK = "Remark"
 
+
+
+
+    const val URL_QUESTIONS = "http://qlhsthptnghen.somee.com/sThongTinDeThi.asmx?wsdl"
+    const val METHOD_GET_QUESTION = "getThongTinDeThiCuaThiSinh"
+    const val SOAP_GET_QUESTION = NAME_SPACE + METHOD_GET_QUESTION
+
+
 }

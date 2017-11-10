@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @SuppressLint("ParcelCreator")
 @Parcelize
-data class Info(@SerializedName("UserID") val userId: Long = 2,
+data class User(@SerializedName("UserID") val userId: Long = 2,
                 @SerializedName("UserName") val userName: String,
                 @SerializedName("RealName") val realName: String = userName,
                 @SerializedName("Password") val password: String,
