@@ -2,6 +2,8 @@ package com.example.nhahv.testthpt.util
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
@@ -14,6 +16,8 @@ class Navigator(val context: AppCompatActivity) {
     fun toast(message: String, time: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(context, message, time).show()
     }
+
+    fun string(@StringRes stringID: Int) = context.getString(stringID)
 
     fun log(message: String) {
         Log.d("TAG", message)
@@ -31,4 +35,24 @@ class Navigator(val context: AppCompatActivity) {
         context.finish()
     }
 
+    fun showDialogConfirm(endTest: () -> Unit) {
+        AlertDialog.Builder(context)
+                .setMessage("Hãy chắc chắn rằng bạn đã làm xong, nộp bài để kết thúc bài thi!")
+                .setPositiveButton("Nộp bài", { dialog, i ->
+                    dialog.dismiss()
+                    endTest()
+                })
+                .setNegativeButton("Cancel", { dialog, i -> dialog.dismiss() })
+                .show()
+    }
+
+    fun showDialogCount(endUI: () -> Unit, count: String) {
+        AlertDialog.Builder(context)
+                .setMessage(count)
+                .setPositiveButton("Ok", { dialog, _ ->
+                    dialog.dismiss()
+                    endUI()
+                })
+                .show()
+    }
 }

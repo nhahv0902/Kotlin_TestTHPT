@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestTHPT</string>
+    <string name="app_name">Thi THPT</string>
     <string name="text_username">Tên đăng nhập</string>
     <string name="text_password">Mật khẩu</string>
     <string name="action_login">Đăng nhập</string>
@@ -12,4 +12,8 @@
     <string name="bind_number_question" formatted="false">%s/%s</string>
     <string name="bind_number_question_made" formatted="false">Đã làm %s/%s</string>
     <string name="bind_stt_question" formatted="false">Cau %s</string>
+    <string name="bind_subject_title" formatted="false"> - %s</string>
+    <string name="text_start_test">Bắt đầu</string>
+    <string name="text_end_test">Nộp bài</string>
+
 </resources>

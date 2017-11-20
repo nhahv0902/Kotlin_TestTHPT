@@ -2,33 +2,31 @@ package com.example.nhahv.testthpt.home
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.util.Log
 import com.example.nhahv.testthpt.BaseActivity
 import com.example.nhahv.testthpt.R
+import com.example.nhahv.testthpt.data.AnswerQuestion
 import com.example.nhahv.testthpt.databinding.ActivityHomeBinding
 import com.example.nhahv.testthpt.util.Navigator
 import kotlinx.android.synthetic.main.activity_home.*
-import org.jetbrains.anko.toast
-import java.time.LocalDateTime
 import java.util.*
-import kotlin.concurrent.timerTask
-import kotlin.system.measureTimeMillis
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), HomeListener {
 
     lateinit var viewModel: HomeViewModel
     var drawerFragment: NavigationDrawerFragment? = null
-    private var isRuning = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
         val bundle = intent.extras
         var maDT: Long = 0
+        var maTSDT: Long = 0
         bundle?.let {
             maDT = it.getLong("maDT")
+            maTSDT = it.getLong("maTSDT")
+            title = it.getString("tenMH")
         }
-        viewModel = HomeViewModel(Navigator(this), maDT)
+        viewModel = HomeViewModel(Navigator(this), this, maDT, maTSDT)
 
         super.onCreate(savedInstanceState)
         val binding: ActivityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
@@ -46,14 +44,27 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun event() {
-        startQuestion.setOnClickListener { isRuning = false }
+        startQuestion.setOnClickListener {
+            if (viewModel.running.get()) {
+                viewModel.endTest()
+            } else {
+                viewModel.startTest()
+            }
+        }
         nextQuesttion.setOnClickListener {
+            if (!viewModel.running.get()) {
+                return@setOnClickListener
+            }
+            viewModel.next = true
             if (viewModel.currentQuestion.get() < viewModel.items.size - 1) {
                 viewModel.currentQuestion.set(viewModel.currentQuestion.get() + 1)
             }
             viewModel.checkQuestionMade()
         }
         previousQuestion.setOnClickListener {
+            if (!viewModel.running.get()) {
+                return@setOnClickListener
+            }
             if (viewModel.currentQuestion.get() > 0) {
                 viewModel.currentQuestion.set(viewModel.currentQuestion.get() - 1)
             }
@@ -61,31 +72,76 @@ class HomeActivity : BaseActivity() {
         }
 
         groupAnswer.setOnCheckedChangeListener { group, _ ->
+            if (viewModel.next || viewModel.previous) return@setOnCheckedChangeListener
             when (group.checkedRadioButtonId) {
                 R.id.checkA -> {
-                    toast("Check A")
+                    if (checkA.isChecked) viewModel.updateAnswer(AnswerQuestion.A)
                 }
                 R.id.checkB -> {
-                    toast("Check B")
+                    if (checkB.isChecked) viewModel.updateAnswer(AnswerQuestion.B)
                 }
                 R.id.checkC -> {
-                    toast("Check C")
+                    if (checkC.isChecked) viewModel.updateAnswer(AnswerQuestion.C)
                 }
                 R.id.checkD -> {
-                    toast("Check D")
+                    if (checkD.isChecked) viewModel.updateAnswer(AnswerQuestion.D)
                 }
             }
         }
-        /* val timer = Timer()
-         timer.schedule(timerTask {
-             if (isRuning) {
+        val timer = Timer()
+        /* timer.schedule(timerTask {
+             if (viewModel.running.get()) {
                  Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
+                 viewModel.postAnswer()
              } else {
                  timer.cancel()
                  timer.purge()
              }
-         }, 0, 3000)*/
+         }, 0, 5 * 60 * 1000)*/
     }
 
 
+//    private fun clearAnswer() {
+//        groupAnswer.clearCheck()
+//    }
+
+    override fun setAnswer(answer: AnswerQuestion?) {
+        groupAnswer.clearCheck()
+        answer?.let {
+            when (it) {
+                AnswerQuestion.A -> {
+                    checkA.isChecked = true
+                    viewModel.next = false
+                    viewModel.previous = false
+                }
+                AnswerQuestion.B -> {
+                    checkB.isChecked = true
+                    viewModel.next = false
+                    viewModel.previous = false
+                }
+                AnswerQuestion.C -> {
+                    checkC.isChecked = true
+                    viewModel.next = false
+                    viewModel.previous = false
+                }
+                AnswerQuestion.D -> {
+                    checkC.isChecked = true
+                    viewModel.next = false
+                    viewModel.previous = false
+                }
+                AnswerQuestion.NOT -> {
+                    checkA.isChecked = false
+                    checkB.isChecked = false
+                    checkC.isChecked = false
+                    checkD.isChecked = false
+                    viewModel.next = false
+                    viewModel.previous = false
+                }
+            }
+        }
+    }
+
+    override fun closeDrawer() {
+        drawerLayout.closeDrawers()
+    }
 }

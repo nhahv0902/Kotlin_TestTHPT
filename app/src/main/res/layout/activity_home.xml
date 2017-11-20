@@ -50,7 +50,7 @@
                     android:layout_marginLeft="8dp"
                     android:background="@drawable/bg_number_question"
                     android:gravity="center"
-                    android:text="@{@string/bind_number_question(viewModel.currentQuestion, viewModel.items.size())}"
+                    android:text="@{@string/bind_number_question(viewModel.currentQuestion + 1, viewModel.numberQuestion)}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/black"
                     android:textSize="13sp"
@@ -67,7 +67,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_start_question"
                     android:gravity="center"
-                    android:text="Bat dau"
+                    android:text="@{viewModel.textStart}"
                     android:textColor="@android:color/white"
                     android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -131,6 +131,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:visibility="@{viewModel.running? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/nextQuesttion"
                     app:layout_constraintStart_toEndOf="@+id/previousQuestion"
@@ -202,7 +203,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:visibility="@{(viewModel.currentQuestion == viewModel.items.size() - 1) ? View.INVISIBLE : View.VISIBLE}"
+                    android:visibility="@{(viewModel.currentQuestion == viewModel.numberQuestion - 1) ? View.INVISIBLE : View.VISIBLE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -218,141 +219,144 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/constraintLayout">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
-                    <TextView
-                        android:id="@+id/textA"
-                        android:layout_width="wrap_content"
+                    <WebView
+                        android:id="@+id/webView"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_text_question"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="A"
-                        app:layout_constraintBottom_toBottomOf="@+id/contentA"
-                        app:layout_constraintStart_toStartOf="@+id/start"
-                        app:layout_constraintTop_toTopOf="@+id/contentA" />
+                        tools:data="@{viewModel.contentQuestion}" />
 
-                    <TextView
-                        android:id="@+id/contentA"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="100dp"
-                        android:background="@drawable/bg_content_question"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toStartOf="@+id/end"
-                        app:layout_constraintStart_toEndOf="@+id/textA"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_marginTop="30dp"
+                        android:background="#Dddddd"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        tools:ignore="WebViewLayout">
 
-                    <android.support.constraint.Guideline
-                        android:id="@+id/start"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_begin="8dp" />
+                        <TextView
+                            android:id="@+id/textA"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="A"
+                            android:textColor="@android:color/black" />
 
-                    <android.support.constraint.Guideline
-                        android:id="@+id/end"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_end="8dp" />
+                        <WebView
+                            android:id="@+id/contentA"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:background="@android:color/white"
+                            tools:data="@{viewModel.pA}" />
 
-                    <TextView
-                        android:id="@+id/textB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_text_question"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="B"
-                        app:layout_constraintBottom_toBottomOf="@+id/contentB"
-                        app:layout_constraintStart_toStartOf="@+id/start"
-                        app:layout_constraintTop_toTopOf="@+id/contentB" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/contentB"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_content_question"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toStartOf="@+id/end"
-                        app:layout_constraintStart_toEndOf="@+id/textB"
-                        app:layout_constraintTop_toBottomOf="@+id/contentA" />
 
-                    <TextView
-                        android:id="@+id/textC"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_text_question"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="C"
-                        app:layout_constraintBottom_toBottomOf="@+id/contentC"
-                        app:layout_constraintStart_toStartOf="@+id/start"
-                        app:layout_constraintTop_toTopOf="@+id/contentC" />
-
-                    <TextView
-                        android:id="@+id/contentC"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_content_question"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toStartOf="@+id/end"
-                        app:layout_constraintStart_toEndOf="@+id/textC"
-                        app:layout_constraintTop_toBottomOf="@+id/contentB" />
-
-                    <TextView
-                        android:id="@+id/textD"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_text_question"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="D"
-                        app:layout_constraintBottom_toBottomOf="@+id/contentD"
-                        app:layout_constraintStart_toStartOf="@+id/start"
-                        app:layout_constraintTop_toTopOf="@+id/contentD"
-                        app:layout_constraintVertical_bias="1.0" />
-
-                    <TextView
-                        android:id="@+id/contentD"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/bg_content_question"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="D"
-                        app:layout_constraintEnd_toStartOf="@+id/end"
-                        app:layout_constraintStart_toEndOf="@+id/textD"
-                        app:layout_constraintTop_toBottomOf="@+id/contentC" />
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="TextView"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </android.support.constraint.ConstraintLayout>
+                        android:background="#Dddddd"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal"
+                        android:padding="1dp">
+
+                        <TextView
+                            android:id="@+id/textB"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="B" />
+
+                        <WebView
+                            android:id="@+id/contentB"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:background="@android:color/white"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            tools:data="@{viewModel.pB}"
+                            tools:ignore="WebViewLayout" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="#Dddddd"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal"
+                        android:padding="1dp"
+                        tools:ignore="WebViewLayout">
+
+                        <TextView
+                            android:id="@+id/textC"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="C" />
+
+                        <WebView
+                            android:id="@+id/contentC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:background="@android:color/white"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            tools:data="@{viewModel.pC}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="#Dddddd"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal"
+                        android:padding="1dp">
+
+                        <TextView
+                            android:id="@+id/textD"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="D" />
+
+                        <WebView
+                            android:id="@+id/contentD"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:background="@android:color/white"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            tools:data="@{viewModel.pD}"
+                            tools:ignore="WebViewLayout" />
+
+                    </LinearLayout>
+                </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
         </android.support.constraint.ConstraintLayout>
 

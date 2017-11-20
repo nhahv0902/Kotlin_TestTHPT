@@ -23,5 +23,7 @@ data class Question(@SerializedName("MaCD") var maCH: Long = 0,
                     @SerializedName("P2") val answerB: String,
                     @SerializedName("P3") val answerC: String,
                     @SerializedName("P4") val answerD: String,
-                    var answer: AnswerQuestion? = null
+                    @SerializedName("DapAn") val dapAn: String? = "",
+                    @SerializedName("MaTSDT") val maTSDT: String = "",
+                    var answer: AnswerQuestion = AnswerQuestion.NOT
 )

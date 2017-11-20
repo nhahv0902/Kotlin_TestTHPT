@@ -15,4 +15,14 @@ enum class AnswerQuestion(val value: Int) {
             else -> ""
         }
     }
+
+    fun getValueChar(): Char =
+            when (value) {
+                1 -> 'A'
+                2 -> 'B'
+                3 -> 'C'
+                4 -> 'D'
+                else -> '0'
+            }
+
 }

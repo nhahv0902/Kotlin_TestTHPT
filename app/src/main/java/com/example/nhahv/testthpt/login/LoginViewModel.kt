@@ -4,12 +4,12 @@ import android.databinding.ObservableBoolean
 import android.os.StrictMode
 import com.example.nhahv.testthpt.BaseViewModel
 import com.example.nhahv.testthpt.data.local.SharePrefs
-import com.example.nhahv.testthpt.home.HomeActivity
+import com.example.nhahv.testthpt.questions.QuestionsActivity
 import com.example.nhahv.testthpt.util.Constant.METHOD_LOGIN
 import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
 import com.example.nhahv.testthpt.util.Constant.PASSWORD
 import com.example.nhahv.testthpt.util.Constant.SOAP_LOGIN
-import com.example.nhahv.testthpt.util.Constant.URL_LOGIN
+import com.example.nhahv.testthpt.util.Constant.URL
 import com.example.nhahv.testthpt.util.Constant.USER_NAME
 import com.example.nhahv.testthpt.util.Navigator
 import org.jetbrains.anko.doAsync
@@ -46,7 +46,7 @@ class LoginViewModel(private val navigator: Navigator) : BaseViewModel() {
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
 
-            val http = HttpTransportSE(URL_LOGIN)
+            val http = HttpTransportSE(URL)
             http.call(SOAP_LOGIN, envelope)
 
             val response: SoapPrimitive = envelope.response as SoapPrimitive
@@ -56,7 +56,7 @@ class LoginViewModel(private val navigator: Navigator) : BaseViewModel() {
                 SharePrefs.getInstance(navigator.context).put("password", password)
                 SharePrefs.getInstance(navigator.context).put("isLogin", true)
 
-                navigator.switchActivity<HomeActivity>()
+                navigator.switchActivity<QuestionsActivity>()
                 navigator.finish()
             } else {
                 uiThread {

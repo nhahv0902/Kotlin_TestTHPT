@@ -22,11 +22,13 @@ class NavigationDrawerFragment : Fragment() {
     var containerView: View? = null
     private var mDrawerLayout: DrawerLayout? = null
     private var mDrawerToggle: ActionBarDrawerToggle? = null
+    private var viewModel: HomeViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val binding: FragmentNavigationDrawerBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_navigation_drawer, container, false)
-        binding.viewModel = (activity as HomeActivity).viewModel
+        viewModel = (activity as HomeActivity).viewModel
+        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -51,6 +53,8 @@ class NavigationDrawerFragment : Fragment() {
         }
         mDrawerLayout?.setDrawerListener(mDrawerToggle)
         mDrawerLayout?.post({ mDrawerToggle?.syncState() })
+
+        mDrawerLayout?.closeDrawers()
     }
 
 }

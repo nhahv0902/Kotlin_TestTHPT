@@ -2,19 +2,13 @@ package com.example.nhahv.testthpt.register
 
 import android.databinding.ObservableBoolean
 import com.example.nhahv.testthpt.BaseViewModel
-import com.example.nhahv.testthpt.home.HomeActivity
-import com.example.nhahv.testthpt.util.Constant
-import com.example.nhahv.testthpt.util.Constant.GRPID
-import com.example.nhahv.testthpt.util.Constant.MAKT
+import com.example.nhahv.testthpt.data.local.SharePrefs
+import com.example.nhahv.testthpt.questions.QuestionsActivity
 import com.example.nhahv.testthpt.util.Constant.METHOD_REGISTER
 import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
 import com.example.nhahv.testthpt.util.Constant.PASSWORD
-import com.example.nhahv.testthpt.util.Constant.REAL_NAME
-import com.example.nhahv.testthpt.util.Constant.REMARK
-import com.example.nhahv.testthpt.util.Constant.SOAP_LOGIN
 import com.example.nhahv.testthpt.util.Constant.SOAP_REGISTER
-import com.example.nhahv.testthpt.util.Constant.URL_LOGIN
-import com.example.nhahv.testthpt.util.Constant.USER_ID
+import com.example.nhahv.testthpt.util.Constant.URL
 import com.example.nhahv.testthpt.util.Constant.USER_NAME
 import com.example.nhahv.testthpt.util.Navigator
 import org.jetbrains.anko.doAsync
@@ -27,13 +21,14 @@ import org.ksoap2.transport.HttpTransportSE
 
 /**
  * Created by nhahv on 11/7/17.
+ * M<>
  */
 class RegisterViewModel(private val navigator: Navigator) : BaseViewModel() {
 
     val loading = ObservableBoolean(false)
 
-    fun register(userName: String, password: String, repeatPassword: String) {
-        if (userName.isNullOrEmpty() || password.isNullOrEmpty() || repeatPassword.isNullOrEmpty()) {
+    fun register(userName: String?, password: String?, repeatPassword: String?) {
+        if (userName.isNullOrBlank() || password.isNullOrBlank() || repeatPassword.isNullOrBlank()) {
             navigator.toast("Hay dien day du thong tin")
             return
         }
@@ -53,13 +48,16 @@ class RegisterViewModel(private val navigator: Navigator) : BaseViewModel() {
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
 
-            val http = HttpTransportSE(URL_LOGIN)
+            val http = HttpTransportSE(URL)
             http.call(SOAP_REGISTER, envelope)
 
             val response: SoapPrimitive = envelope.response as SoapPrimitive
             loading.set(false)
             if (response.toString().toBoolean()) {
-                navigator.switchActivity<HomeActivity>()
+                SharePrefs.getInstance(navigator.context).put("user", userName)
+                SharePrefs.getInstance(navigator.context).put("password", password)
+                SharePrefs.getInstance(navigator.context).put("isLogin", true)
+                navigator.switchActivity<QuestionsActivity>()
                 navigator.finish()
 
             } else {

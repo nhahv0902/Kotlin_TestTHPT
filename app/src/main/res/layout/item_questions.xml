@@ -31,7 +31,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@{item.subjectTitle}"
+            android:text="@{@string/bind_subject_title(item.subjectTitle)}"
             android:textColor="#263ad2"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"

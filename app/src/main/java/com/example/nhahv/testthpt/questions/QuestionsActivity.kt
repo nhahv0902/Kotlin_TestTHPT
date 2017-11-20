@@ -19,12 +19,17 @@ class QuestionsActivity : BaseActivity() {
         viewModel = QuestionsViewModel(Navigator(this))
         binding.viewModel = viewModel
 
-        title  = "Danh sách đề thi"
+        title = "Danh sách đề thi"
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == android.R.id.home) onBackPressed()
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getQuestions()
     }
 }

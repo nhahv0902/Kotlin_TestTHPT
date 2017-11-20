@@ -27,20 +27,6 @@
         android:paddingTop="4dp">
 
         <TextView
-            android:id="@+id/numberQuestion"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:padding="8dp"
-            android:singleLine="true"
-            android:text="@{item.content}"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toStartOf="@+id/answer"
-            app:layout_constraintStart_toEndOf="@+id/stt"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Cau 1" />
-
-        <TextView
             android:id="@+id/answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +34,9 @@
             android:padding="8dp"
             android:text="@{item.answer.getValue()}"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/numberQuestion"
+            app:layout_constraintLeft_toLeftOf="@id/stt"
+            tools:text="A"
+            app:layout_constraintBottom_toBottomOf="@+id/stt"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
@@ -56,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            tools:text="Cau 1"
             android:text="@{@string/bind_stt_question(position +1)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
