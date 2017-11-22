@@ -9,6 +9,7 @@ import com.example.nhahv.testthpt.BaseRecyclerAdapter
 import com.example.nhahv.testthpt.BaseViewModel
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.data.InfoQuestion
+import com.example.nhahv.testthpt.data.local.SharePrefs
 import com.example.nhahv.testthpt.home.HomeActivity
 import com.example.nhahv.testthpt.util.Constant.METHOD_GET_QUESTION
 import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
@@ -36,14 +37,14 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
         getQuestions()
     }
 
-     fun getQuestions() {
+    fun getQuestions() {
         loading.set(View.VISIBLE)
         val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_GET_QUESTION)
-            request.addProperty("TenDangNhap", "an")
+            request.addProperty("TenDangNhap", SharePrefs.getInstance(navigator.context).get("user", SharePrefs.TypeSharePrefs.STRING))
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
@@ -61,7 +62,14 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
                 val tenMH = element.getProperty("TenMH").toString()
                 val tenBaiThi = element.getProperty("TenBaiThi").toString()
                 val maTSDT = element.getProperty("MaTSDT").toString()
-                items.add(InfoQuestion(maDT = maDT.toLong(), subjectTitle = tenMH, nameTest = tenBaiThi, maTSDT = maTSDT.toLong()))
+                val hoTen = element.getProperty("HoTen").toString()
+                val ngaySinh = element.getProperty("NgaySinh").toString()
+                val time = element.getProperty("ThoiGian").toString()
+                val status = element.getProperty("TinhTrangThi").toString()
+                items.add(InfoQuestion(maDT = maDT.toLong(), subjectTitle = tenMH,
+                        nameTest = tenBaiThi, maTSDT = maTSDT.toLong(),
+                        birthDay = ngaySinh, name = hoTen, time = time.toInt(),
+                        status = status.toBoolean()))
                 index++
             }
             adapter.notifyChange()
@@ -70,11 +78,7 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
 
     override fun onClickItem(item: InfoQuestion, position: Int) {
         val bundle = Bundle()
-        bundle.putLong("maDT", item.maDT)
-        bundle.putString("tenMH", item.subjectTitle)
-        bundle.putLong("maTSDT", item.maTSDT)
+        bundle.putParcelable("info", item)
         navigator.switchActivity<HomeActivity>(bundle)
     }
-
-
 }

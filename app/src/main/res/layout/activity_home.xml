@@ -27,7 +27,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="56dp"
                 android:background="@color/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -78,7 +78,7 @@
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00:48:12"
+                    android:text="@{viewModel.timeCountString}"
                     android:textColor="@android:color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@+id/numberMade"

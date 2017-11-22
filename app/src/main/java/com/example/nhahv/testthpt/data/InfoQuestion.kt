@@ -1,10 +1,15 @@
 package com.example.nhahv.testthpt.data
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by nhahv on 10/11/2017.
  */
+@SuppressLint("ParcelCreator")
+@Parcelize
 data class InfoQuestion(
         @SerializedName("MaTS") var maTS: Long = 0,
         @SerializedName("SBD") var sbd: String = "",
@@ -17,5 +22,6 @@ data class InfoQuestion(
         @SerializedName("MaDT") var maDT: Long = 0,
         @SerializedName("TenMH") var subjectTitle: String = "",
         @SerializedName("TenBaiThi") var nameTest: String = "",
-        @SerializedName("TinhTrangThi") var status: Boolean = false
-)
+        @SerializedName("TinhTrangThi") var status: Boolean = false,
+        @SerializedName("ThoiGian") var time: Int = 0
+) : Parcelable

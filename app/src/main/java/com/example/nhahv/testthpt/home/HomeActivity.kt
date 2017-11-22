@@ -2,13 +2,16 @@ package com.example.nhahv.testthpt.home
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.util.Log
 import com.example.nhahv.testthpt.BaseActivity
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.data.AnswerQuestion
+import com.example.nhahv.testthpt.data.InfoQuestion
 import com.example.nhahv.testthpt.databinding.ActivityHomeBinding
 import com.example.nhahv.testthpt.util.Navigator
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
+import kotlin.concurrent.timerTask
 
 class HomeActivity : BaseActivity(), HomeListener {
 
@@ -19,14 +22,12 @@ class HomeActivity : BaseActivity(), HomeListener {
 
 
         val bundle = intent.extras
-        var maDT: Long = 0
-        var maTSDT: Long = 0
+        var question: InfoQuestion = InfoQuestion()
         bundle?.let {
-            maDT = it.getLong("maDT")
-            maTSDT = it.getLong("maTSDT")
-            title = it.getString("tenMH")
+            question = bundle.getParcelable("info")
+            title = question.subjectTitle
         }
-        viewModel = HomeViewModel(Navigator(this), this, maDT, maTSDT)
+        viewModel = HomeViewModel(Navigator(this), this, question)
 
         super.onCreate(savedInstanceState)
         val binding: ActivityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
@@ -89,15 +90,15 @@ class HomeActivity : BaseActivity(), HomeListener {
             }
         }
         val timer = Timer()
-        /* timer.schedule(timerTask {
-             if (viewModel.running.get()) {
-                 Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
-                 viewModel.postAnswer()
-             } else {
-                 timer.cancel()
-                 timer.purge()
-             }
-         }, 0, 5 * 60 * 1000)*/
+        timer.schedule(timerTask {
+            if (viewModel.running.get()) {
+                viewModel.updateAnswer()
+                Log.d("TAG", Calendar.getInstance().timeInMillis.toString())
+            } else {
+                timer.cancel()
+                timer.purge()
+            }
+        }, 0, 5 * 60 * 1000)
     }
 
 

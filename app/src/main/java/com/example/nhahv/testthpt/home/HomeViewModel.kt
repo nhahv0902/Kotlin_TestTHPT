@@ -4,36 +4,43 @@ import android.databinding.Bindable
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableInt
+import android.os.Bundle
 import android.os.StrictMode
+import android.text.format.DateUtils
 import android.view.View
 import com.example.nhahv.testthpt.BR
 import com.example.nhahv.testthpt.BaseRecyclerAdapter
 import com.example.nhahv.testthpt.BaseViewModel
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.data.AnswerQuestion
+import com.example.nhahv.testthpt.data.InfoQuestion
 import com.example.nhahv.testthpt.data.Question
+import com.example.nhahv.testthpt.point.PointActivity
 import com.example.nhahv.testthpt.util.Constant.METHOD_INFO_TEST
 import com.example.nhahv.testthpt.util.Constant.METHOD_POST_ANSWER
 import com.example.nhahv.testthpt.util.Constant.METHOD_UPDATE_MATSDT
+import com.example.nhahv.testthpt.util.Constant.METHOD_UPDATE_STATUS
 import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
 import com.example.nhahv.testthpt.util.Constant.SOAP_INFO_TEST
 import com.example.nhahv.testthpt.util.Constant.SOAP_POST_ANSWER
 import com.example.nhahv.testthpt.util.Constant.SOAP_UPDATE_MATSDT
+import com.example.nhahv.testthpt.util.Constant.SOAP_UPDATE_STATUS
 import com.example.nhahv.testthpt.util.Constant.URL
 import com.example.nhahv.testthpt.util.Constant.URL_INFO_TEST
 import com.example.nhahv.testthpt.util.Navigator
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import org.ksoap2.SoapEnvelope
 import org.ksoap2.serialization.SoapObject
 import org.ksoap2.serialization.SoapPrimitive
 import org.ksoap2.serialization.SoapSerializationEnvelope
 import org.ksoap2.transport.HttpTransportSE
+import java.util.*
+import kotlin.concurrent.timerTask
 
 /**
  * Created by nhahv on 11/7/17.
  */
-class HomeViewModel(private val navigator: Navigator, private val listener: HomeListener, private val maDT: Long = -1, private val maTSDT: Long = -1) : BaseViewModel(), BaseRecyclerAdapter.OnClickItem<Question> {
+class HomeViewModel(private val navigator: Navigator, private val listener: HomeListener, private val question: InfoQuestion = InfoQuestion()) : BaseViewModel(), BaseRecyclerAdapter.OnClickItem<Question> {
     val loading = ObservableInt(View.VISIBLE)
     var items = ArrayList<Question>()
         @Bindable get() = field
@@ -105,8 +112,21 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
     val currentQuestion = ObservableInt(0)
     val numberMade = ObservableInt(0)
 
+
+    var timeCount: Int = 0 // count time
+    var timeCountString: String = "" // count time string show UI
+        @Bindable get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.timeCountString)
+        }
+
+
     init {
         getTestBtExam()
+        navigator.log("time =  ${question.time}")
+        timeCount = question.time * 60
+        timeCountString = DateUtils.formatElapsedTime(timeCount.toLong())
     }
 
     private fun getTestBtExam() {
@@ -116,7 +136,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
 
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_INFO_TEST)
-            request.addProperty("maDeThi", 140)
+            request.addProperty("maDeThi", question.maDT)
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
@@ -177,7 +197,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
     fun startTest() {
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_UPDATE_MATSDT)
-            request.addProperty("maTSDT", maTSDT)
+            request.addProperty("maTSDT", question.maTSDT)
             request.addProperty("tinhtrang", 2)
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
@@ -192,6 +212,18 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
 
                 textStart = navigator.string(R.string.text_end_test)
                 running.set(!running.get())
+
+                val timer = Timer()
+                timer.schedule(timerTask {
+                    if (running.get() && timeCount > 0) {
+                        timeCount--
+                        timeCountString = DateUtils.formatElapsedTime(timeCount.toLong())
+                    } else if (timeCount == 0 && running.get()) {
+                        postAnswer()
+                        running.set(!running.get())
+                    }
+                }, 0, 1000)
+                updateStatus()
             }
         }
     }
@@ -207,7 +239,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_POST_ANSWER)
             request.addProperty("BaiLam", answer.toString())
-            request.addProperty("maDeThi", maDT)
+            request.addProperty("maDeThi", question.maDT)
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
@@ -216,19 +248,38 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
             http.call(SOAP_POST_ANSWER, envelope)
 
             val response = envelope.response as SoapPrimitive
-            navigator.log("${response.toString().toFloat()}")
+
             updateTest()
-            uiThread {
-                navigator.showDialogCount({ navigator.finish() }, response.toString().toFloat().toString())
-                running.set(!running.get())
-            }
+            running.set(!running.get())
+
+            val bundle = Bundle()
+            bundle.putParcelable("info", question)
+            bundle.putFloat("point", response.toString().toFloat())
+            navigator.switchActivity<PointActivity>(bundle)
+            navigator.finish()
+        }
+    }
+
+    fun updateAnswer() {
+        doAsync {
+            val request = SoapObject(NAME_SPACE, METHOD_POST_ANSWER)
+            request.addProperty("BaiLam", answer.toString())
+            request.addProperty("maDeThi", question.maDT)
+            val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
+            envelope.dotNet = true
+            envelope.setOutputSoapObject(request)
+
+            val http = HttpTransportSE(URL)
+            http.call(SOAP_POST_ANSWER, envelope)
+
+            val response = envelope.response as SoapPrimitive
         }
     }
 
     fun updateTest() {
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_UPDATE_MATSDT)
-            request.addProperty("maTSDT", maTSDT)
+            request.addProperty("maTSDT", question.maTSDT)
             request.addProperty("tinhtrang", 3)
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
@@ -238,6 +289,24 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
             http.call(SOAP_UPDATE_MATSDT, envelope)
 
             val response = envelope.response as SoapPrimitive // boolean
+        }
+    }
+
+    fun updateStatus() {
+        doAsync {
+            val request = SoapObject(NAME_SPACE, METHOD_UPDATE_STATUS)
+            request.addProperty("maTSDT", question.maTSDT)
+            request.addProperty("tinhTrang", false)
+            val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
+            envelope.dotNet = true
+            envelope.setOutputSoapObject(request)
+
+            val http = HttpTransportSE(URL)
+            http.call(SOAP_UPDATE_STATUS, envelope)
+
+            val response = envelope.response as SoapPrimitive // boolean
+
+            navigator.log("${response.toString().toBoolean()}")
         }
     }
 

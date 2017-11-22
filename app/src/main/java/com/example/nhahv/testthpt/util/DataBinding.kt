@@ -12,5 +12,6 @@ fun dataWebview(view: WebView, data: String?) {
     data?.let {
         view.settings.defaultTextEncodingName = "utf-8"
         view.loadData( it, "text/html; charset=utf-8","UTF-8")
+//        view.loadUrl("file://android_asset/text.html")
     }
 }

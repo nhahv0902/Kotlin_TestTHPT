@@ -21,18 +21,21 @@
         </activity>
         <activity
             android:name=".register.RegisterActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".home.HomeActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".questions.QuestionsActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".point.PointActivity"
             android:theme="@style/AppTheme">
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>-->
         </activity>
     </application>
 

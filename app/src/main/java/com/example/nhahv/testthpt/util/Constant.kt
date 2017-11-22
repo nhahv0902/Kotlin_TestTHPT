@@ -40,5 +40,7 @@ object Constant {
     const val METHOD_POST_ANSWER = "getDiemThiByDeThi"
     const val SOAP_POST_ANSWER = NAME_SPACE + METHOD_POST_ANSWER
 
+    const val METHOD_UPDATE_STATUS = "updateTinhTrangThiBangMaTSDT"
+    const val SOAP_UPDATE_STATUS = NAME_SPACE + METHOD_UPDATE_STATUS
 
 }

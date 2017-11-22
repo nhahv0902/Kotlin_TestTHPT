@@ -6,4 +6,5 @@
     <color name="color_blue_text">#3768e4</color>
     <color name="color_bg_home">#E0E0E0</color>
     <color name="color_bg_home_gb">#FEFEFE</color>
+    <color name="color_disable">#44c6c5c5</color>
 </resources>
