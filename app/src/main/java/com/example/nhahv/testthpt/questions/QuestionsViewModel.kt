@@ -16,6 +16,7 @@ import com.example.nhahv.testthpt.util.Constant.NAME_SPACE
 import com.example.nhahv.testthpt.util.Constant.SOAP_GET_QUESTION
 import com.example.nhahv.testthpt.util.Constant.URL
 import com.example.nhahv.testthpt.util.Navigator
+import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.ksoap2.SoapEnvelope
 import org.ksoap2.serialization.SoapObject
@@ -70,6 +71,7 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
                         nameTest = tenBaiThi, maTSDT = maTSDT.toLong(),
                         birthDay = ngaySinh, name = hoTen, time = time.toInt(),
                         status = status.toBoolean()))
+                navigator.log("$items")
                 index++
             }
             adapter.notifyChange()
@@ -78,7 +80,7 @@ class QuestionsViewModel(private val navigator: Navigator) : BaseViewModel(), Ba
 
     override fun onClickItem(item: InfoQuestion, position: Int) {
         val bundle = Bundle()
-        bundle.putParcelable("info", item)
+        bundle.putString("info", Gson().toJson(item))
         navigator.switchActivity<HomeActivity>(bundle)
     }
 }

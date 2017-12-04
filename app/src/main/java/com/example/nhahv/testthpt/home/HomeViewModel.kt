@@ -26,8 +26,8 @@ import com.example.nhahv.testthpt.util.Constant.SOAP_POST_ANSWER
 import com.example.nhahv.testthpt.util.Constant.SOAP_UPDATE_MATSDT
 import com.example.nhahv.testthpt.util.Constant.SOAP_UPDATE_STATUS
 import com.example.nhahv.testthpt.util.Constant.URL
-import com.example.nhahv.testthpt.util.Constant.URL_INFO_TEST
 import com.example.nhahv.testthpt.util.Navigator
+import com.google.gson.Gson
 import org.jetbrains.anko.doAsync
 import org.ksoap2.SoapEnvelope
 import org.ksoap2.serialization.SoapObject
@@ -136,12 +136,12 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
 
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_INFO_TEST)
-            request.addProperty("maDeThi", question.maDT)
+            request.addProperty("maThiSinhDeThi", 31)
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
 
-            val http = HttpTransportSE(URL_INFO_TEST)
+            val http = HttpTransportSE(URL)
             http.call(SOAP_INFO_TEST, envelope)
 
             val response = envelope.response as SoapObject
@@ -208,6 +208,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
 
             val response = envelope.response as SoapPrimitive
             if (response.toString().toBoolean()) {
+                if (items.size <= 0) return@doAsync
                 updateDataUI(0)
 
                 textStart = navigator.string(R.string.text_end_test)
@@ -253,7 +254,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
             running.set(!running.get())
 
             val bundle = Bundle()
-            bundle.putParcelable("info", question)
+            bundle.putString("info", Gson().toJson(question))
             bundle.putFloat("point", response.toString().toFloat())
             navigator.switchActivity<PointActivity>(bundle)
             navigator.finish()

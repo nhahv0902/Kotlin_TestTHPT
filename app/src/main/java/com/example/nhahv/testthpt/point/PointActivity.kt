@@ -7,6 +7,7 @@ import android.view.MenuItem
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.data.InfoQuestion
 import com.example.nhahv.testthpt.databinding.ActivityPointBinding
+import com.google.gson.Gson
 
 class PointActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class PointActivity : AppCompatActivity() {
         var question: InfoQuestion = InfoQuestion()
         var point: Float = 0f
         bundle?.let {
-            question = it.getParcelable("info")
+            question = Gson().fromJson(it.getString("info"), InfoQuestion::class.java)
             point = it.getFloat("point")
         }
         mViewModel = PointViewModel(question, point)

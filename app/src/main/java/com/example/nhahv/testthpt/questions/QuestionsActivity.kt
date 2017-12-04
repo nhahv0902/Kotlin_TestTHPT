@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.nhahv.testthpt.BaseActivity
 import com.example.nhahv.testthpt.R
+import com.example.nhahv.testthpt.data.local.SharePrefs
 import com.example.nhahv.testthpt.databinding.ActivityQuestionsBinding
 import com.example.nhahv.testthpt.login.LoginActivity
 import com.example.nhahv.testthpt.util.Navigator
@@ -49,6 +50,9 @@ class QuestionsActivity : BaseActivity() {
         }
         if (item?.itemId == R.id.logout){
             switchActivity<LoginActivity>()
+            SharePrefs.getInstance(this).remove("user")
+            SharePrefs.getInstance(this).remove("password")
+            SharePrefs.getInstance(this).put("isLogin", false)
             finish()
         }
         return super.onOptionsItemSelected(item)

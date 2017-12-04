@@ -8,8 +8,6 @@ import kotlinx.android.parcel.Parcelize
 /**
  * Created by nhahv on 10/11/2017.
  */
-@SuppressLint("ParcelCreator")
-@Parcelize
 data class InfoQuestion(
         @SerializedName("MaTS") var maTS: Long = 0,
         @SerializedName("SBD") var sbd: String = "",
@@ -24,4 +22,4 @@ data class InfoQuestion(
         @SerializedName("TenBaiThi") var nameTest: String = "",
         @SerializedName("TinhTrangThi") var status: Boolean = false,
         @SerializedName("ThoiGian") var time: Int = 0
-) : Parcelable
+)

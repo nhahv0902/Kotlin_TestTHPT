@@ -42,6 +42,10 @@ class SharePrefs private constructor(context: Context) {
         }
     }
 
+    fun remove (key: String){
+        sharePrefs.edit().remove(key).apply()
+    }
+
     enum class TypeSharePrefs {
         STRING, INT, LONG, FLOAT, BOOLEAN, DOUBLE
     }

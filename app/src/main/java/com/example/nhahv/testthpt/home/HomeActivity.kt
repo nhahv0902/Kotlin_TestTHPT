@@ -9,6 +9,7 @@ import com.example.nhahv.testthpt.data.AnswerQuestion
 import com.example.nhahv.testthpt.data.InfoQuestion
 import com.example.nhahv.testthpt.databinding.ActivityHomeBinding
 import com.example.nhahv.testthpt.util.Navigator
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -24,7 +25,7 @@ class HomeActivity : BaseActivity(), HomeListener {
         val bundle = intent.extras
         var question: InfoQuestion = InfoQuestion()
         bundle?.let {
-            question = bundle.getParcelable("info")
+            question = Gson().fromJson(bundle.getString("info"), InfoQuestion::class.java)
             title = question.subjectTitle
         }
         viewModel = HomeViewModel(Navigator(this), this, question)
@@ -145,4 +146,6 @@ class HomeActivity : BaseActivity(), HomeListener {
     override fun closeDrawer() {
         drawerLayout.closeDrawers()
     }
+
+
 }

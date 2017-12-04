@@ -21,7 +21,6 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="@{item.status}"
         android:background="@{item.status? @android:color/white : @color/color_disable}"
         android:onClick="@{() -> listener.onClickItem(item, position)}"
         android:padding="8dp">
