@@ -136,7 +136,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
 
         doAsync {
             val request = SoapObject(NAME_SPACE, METHOD_INFO_TEST)
-            request.addProperty("maThiSinhDeThi", 31)
+            request.addProperty("maThiSinhDeThi", question.maTSDT)
             val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
             envelope.dotNet = true
             envelope.setOutputSoapObject(request)
@@ -222,6 +222,8 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
                     } else if (timeCount == 0 && running.get()) {
                         postAnswer()
                         running.set(!running.get())
+                        timer.cancel()
+                        timer.purge()
                     }
                 }, 0, 1000)
                 updateStatus()
@@ -251,7 +253,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
             val response = envelope.response as SoapPrimitive
 
             updateTest()
-            running.set(!running.get())
+            running.set(false)
 
             val bundle = Bundle()
             bundle.putString("info", Gson().toJson(question))

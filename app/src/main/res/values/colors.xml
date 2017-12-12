@@ -7,4 +7,5 @@
     <color name="color_bg_home">#E0E0E0</color>
     <color name="color_bg_home_gb">#FEFEFE</color>
     <color name="color_disable">#44c6c5c5</color>
+    <color name="color_red">#df0a18</color>
 </resources>

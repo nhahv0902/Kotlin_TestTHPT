@@ -1,5 +1,6 @@
 package com.example.nhahv.testthpt.home
 
+import android.app.AlertDialog
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
@@ -148,4 +149,27 @@ class HomeActivity : BaseActivity(), HomeListener {
     }
 
 
+    override fun onStop() {
+        super.onStop()
+        if (viewModel.running.get()) {
+            viewModel.postAnswer()
+            viewModel.running.set(false)
+            finish()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.running.get()) {
+            AlertDialog.Builder(this)
+                    .setMessage("Bạn có muốn thoát khỏi bài thi không?")
+                    .setPositiveButton("Thoát", { dialog, _ ->
+                        viewModel.postAnswer()
+                        viewModel.running.set(false)
+                        dialog.dismiss()
+                        super.onBackPressed()
+                    })
+                    .setNegativeButton("Không", { dialog, _ -> dialog.dismiss() })
+                    .show()
+        }
+    }
 }

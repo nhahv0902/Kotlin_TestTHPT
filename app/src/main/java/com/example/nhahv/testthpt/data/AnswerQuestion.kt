@@ -25,4 +25,5 @@ enum class AnswerQuestion(val value: Int) {
                 else -> '0'
             }
 
+    fun isAnswer() = value != 0
 }
