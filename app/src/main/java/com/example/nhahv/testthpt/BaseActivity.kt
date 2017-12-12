@@ -2,6 +2,7 @@ package com.example.nhahv.testthpt
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 
@@ -14,6 +15,9 @@ class BaseActivity : AppCompatActivity() {
 
     inline fun <reified T : AppCompatActivity> switchActivity() {
         startActivity(Intent(this, T::class.java))
+    }
+    inline fun <reified T : AppCompatActivity> switchActivity(bundle: Bundle) {
+        startActivity(Intent(this, T::class.java).putExtras(bundle))
     }
 
     fun setupToolbar(toolbar: Toolbar) {

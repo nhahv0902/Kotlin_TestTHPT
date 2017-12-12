@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.nhahv.testthpt.data.Question" />
+
+        <variable
+            name="listener"
+            type="com.example.nhahv.testthpt.BaseRecyclerAdapter.OnClickItem" />
+
+        <variable
+            name="position"
+            type="int" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:data="@{item.content}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="#Dddddd"
+            android:minHeight="40dp"
+            android:orientation="horizontal"
+            android:padding="1dp"
+            tools:ignore="WebViewLayout">
+
+            <TextView
+                android:id="@+id/textA"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="A"
+                android:textColor="@android:color/black" />
+
+            <WebView
+                android:id="@+id/contentA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:background="@android:color/white"
+                tools:data="@{item.answerA}" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#Dddddd"
+            android:minHeight="40dp"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <TextView
+                android:id="@+id/textB"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="B" />
+
+            <WebView
+                android:id="@+id/contentB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:background="@android:color/white"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                tools:data="@{item.answerB}"
+                tools:ignore="WebViewLayout" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#Dddddd"
+            android:minHeight="40dp"
+            android:orientation="horizontal"
+            android:padding="1dp"
+            tools:ignore="WebViewLayout">
+
+            <TextView
+                android:id="@+id/textC"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="C" />
+
+            <WebView
+                android:id="@+id/contentC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:background="@android:color/white"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                tools:data="@{item.answerC}" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#Dddddd"
+            android:minHeight="40dp"
+            android:orientation="horizontal"
+            android:padding="1dp">
+
+            <TextView
+                android:id="@+id/textD"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="D" />
+
+            <WebView
+                android:id="@+id/contentD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:background="@android:color/white"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                tools:data="@{item.answerD}"
+                tools:ignore="WebViewLayout" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

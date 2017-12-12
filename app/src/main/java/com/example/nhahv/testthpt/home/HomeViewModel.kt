@@ -258,6 +258,7 @@ class HomeViewModel(private val navigator: Navigator, private val listener: Home
             val bundle = Bundle()
             bundle.putString("info", Gson().toJson(question))
             bundle.putFloat("point", response.toString().toFloat())
+            bundle.putString("questions", Gson().toJson(items))
             navigator.switchActivity<PointActivity>(bundle)
             navigator.finish()
         }
