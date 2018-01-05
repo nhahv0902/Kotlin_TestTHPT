@@ -33,6 +33,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
@@ -95,7 +96,7 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/bg_start_question"
                     android:padding="4dp"
-                    android:text="@{@string/bind_number_question_made(viewModel.numberMade, viewModel.items.size())}"
+                    android:text="@{@string/bind_number_question_made(viewModel.numberMade, viewModel.questions.size())}"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -358,6 +359,22 @@
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
+
+            <FrameLayout
+                android:visibility="@{viewModel.viewPost}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#cc000000">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+            </FrameLayout>
         </android.support.constraint.ConstraintLayout>
 
         <fragment

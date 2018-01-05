@@ -1,6 +1,7 @@
 package com.example.nhahv.testthpt.home
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +9,11 @@ import com.example.nhahv.testthpt.BaseActivity
 import com.example.nhahv.testthpt.R
 import com.example.nhahv.testthpt.data.AnswerQuestion
 import com.example.nhahv.testthpt.data.InfoQuestion
+import com.example.nhahv.testthpt.data.Question
 import com.example.nhahv.testthpt.databinding.ActivityHomeBinding
 import com.example.nhahv.testthpt.util.Navigator
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -19,23 +22,25 @@ class HomeActivity : BaseActivity(), HomeListener {
 
     lateinit var viewModel: HomeViewModel
     var drawerFragment: NavigationDrawerFragment? = null
+    private var mProgress: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
         val bundle = intent.extras
+        var questions: ArrayList<Question> = ArrayList()
         var question: InfoQuestion = InfoQuestion()
         bundle?.let {
             question = Gson().fromJson(bundle.getString("info"), InfoQuestion::class.java)
-            title = question.subjectTitle
+            questions = Gson().fromJson(bundle.getString("question"), object : TypeToken<List<Question>>() {}.type)
+            title = bundle.getString("title")
         }
-        viewModel = HomeViewModel(Navigator(this), this, question)
+        viewModel = HomeViewModel(Navigator(this), this, questions, question)
 
         super.onCreate(savedInstanceState)
         val binding: ActivityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
         binding.viewModel = viewModel
-
         setup()
         event()
     }
@@ -59,7 +64,7 @@ class HomeActivity : BaseActivity(), HomeListener {
                 return@setOnClickListener
             }
             viewModel.next = true
-            if (viewModel.currentQuestion.get() < viewModel.items.size - 1) {
+            if (viewModel.currentQuestion.get() < viewModel.questions.size - 1) {
                 viewModel.currentQuestion.set(viewModel.currentQuestion.get() + 1)
             }
             viewModel.checkQuestionMade()
@@ -170,6 +175,25 @@ class HomeActivity : BaseActivity(), HomeListener {
                     })
                     .setNegativeButton("Không", { dialog, _ -> dialog.dismiss() })
                     .show()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun showProgressDialog() {
+        if (mProgress == null){
+            mProgress = ProgressDialog(this)
+            mProgress!!.setMessage("Đang nộp bài.")
+        }
+
+        mProgress.let {
+            if (!it!!.isShowing) it.show()
+        }
+    }
+
+    override fun hideProgressDialog() {
+        mProgress.let {
+            if (it!!.isShowing) it.dismiss()
         }
     }
 }

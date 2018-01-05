@@ -7,5 +7,10 @@ import com.example.nhahv.testthpt.data.AnswerQuestion
  */
 interface HomeListener {
     fun setAnswer(answer: AnswerQuestion?)
+
     fun closeDrawer()
+
+    fun showProgressDialog()
+
+    fun hideProgressDialog()
 }

@@ -27,9 +27,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".questions.QuestionsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".point.PointActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
             <!--
@@ -40,7 +42,9 @@
              </intent-filter>
             -->
         </activity>
-        <activity android:name=".viewtest.ViewTestActivity"></activity>
+        <activity
+            android:name=".viewtest.ViewTestActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

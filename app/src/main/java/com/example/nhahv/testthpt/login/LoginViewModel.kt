@@ -38,32 +38,38 @@ class LoginViewModel(private val navigator: Navigator) : BaseViewModel() {
         val policy: StrictMode.ThreadPolicy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        doAsync {
-            val request = SoapObject(NAME_SPACE, METHOD_LOGIN)
-            request.addProperty(USER_NAME, userName)
-            request.addProperty(PASSWORD, password)
-            val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
-            envelope.dotNet = true
-            envelope.setOutputSoapObject(request)
+        try {
+            doAsync {
+                val request = SoapObject(NAME_SPACE, METHOD_LOGIN)
+                request.addProperty(USER_NAME, userName)
+                request.addProperty(PASSWORD, password)
+                val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
+                envelope.dotNet = true
+                envelope.setOutputSoapObject(request)
 
-            val http = HttpTransportSE(URL)
-            http.call(SOAP_LOGIN, envelope)
+                val http = HttpTransportSE(URL)
+                http.call(SOAP_LOGIN, envelope)
 
-            val response: SoapPrimitive = envelope.response as SoapPrimitive
-            loading.set(false)
-            if (response.toString().toBoolean()) {
-                SharePrefs.getInstance(navigator.context).put("user", userName)
-                SharePrefs.getInstance(navigator.context).put("password", password)
-                SharePrefs.getInstance(navigator.context).put("isLogin", true)
+                val response: SoapPrimitive = envelope.response as SoapPrimitive
+                loading.set(false)
+                if (response.toString().toBoolean()) {
+                    SharePrefs.getInstance(navigator.context).put("user", userName)
+                    SharePrefs.getInstance(navigator.context).put("password", password)
+                    SharePrefs.getInstance(navigator.context).put("isLogin", true)
 
-                navigator.switchActivity<QuestionsActivity>()
-                navigator.finish()
-            } else {
-                uiThread {
-                    navigator.toast("Dang nhap khong thanh cong!")
+                    navigator.switchActivity<QuestionsActivity>()
+                    navigator.finish()
+                } else {
+                    uiThread {
+                        navigator.toast("Dang nhap khong thanh cong!")
+                    }
                 }
             }
+        } catch (ex: Exception) {
+            loading.set(false)
+            navigator.toast("User or password not correct!")
         }
+
     }
 
 }
